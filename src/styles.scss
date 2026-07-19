@@ -1,0 +1,66 @@
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+
+  @include mat.theme((
+    color: (
+      primary: mat.$violet-palette,
+      tertiary: mat.$green-palette,
+    ),
+    typography: Poppins,
+    density: 0,
+  ));
+
+  @include mat.theme-overrides((
+    primary: #1A1460,
+    on-primary: #FFFFFF,
+    primary-container: #E4E0FF,
+    on-primary-container: #160F52,
+    secondary: #315F82,
+    on-secondary: #FFFFFF,
+    secondary-container: #CEE5FF,
+    on-secondary-container: #0C314A,
+    tertiary: #276B4A,
+    on-tertiary: #FFFFFF,
+    tertiary-container: #A9F3C9,
+    on-tertiary-container: #002113,
+    error: #BA1A1A,
+    on-error: #FFFFFF,
+    error-container: #FFDAD6,
+    on-error-container: #410002,
+    surface: #FDF8FF,
+    surface-container-lowest: #FFFFFF,
+    surface-container-low: #F7F2FA,
+    surface-container: #F1ECF4,
+    surface-container-high: #EBE6EE,
+    surface-container-highest: #E5E0E8,
+    on-surface: #1D1B20,
+    on-surface-variant: #49454F,
+    outline: #79747E,
+    outline-variant: #CAC4D0,
+  ));
+}
+
+:root {
+  --tib-deep-indigo: #1A1460;
+  --tib-navy: #0F2D5F;
+  --tib-violet: #7961E6;
+  --tib-teal: #529897;
+  --tib-green: #55B675;
+  --tib-white: #FFFFFF;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  color-scheme: light;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+  font-family: 'Poppins', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}

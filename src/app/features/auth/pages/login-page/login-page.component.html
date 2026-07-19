@@ -1,0 +1,55 @@
+<main class="login-page">
+  <div class="login-shell">
+    <section class="brand-panel" aria-label="TB Project Manager">
+      <img class="brand-logo" src="/assets/logo-tib.svg" alt="TiB" />
+      <h1>Project Manager</h1>
+    </section>
+
+    <mat-card class="login-card" appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>Login</mat-card-title>
+        <mat-card-subtitle>Acesse o controle de clientes e servicos</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="submit()" class="login-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" autocomplete="username" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Senha</mat-label>
+            <input
+              matInput
+              formControlName="password"
+              autocomplete="current-password"
+              [type]="hidePassword() ? 'password' : 'text'"
+            />
+            <button
+              matIconButton
+              matSuffix
+              type="button"
+              [attr.aria-label]="hidePassword() ? 'Mostrar senha' : 'Ocultar senha'"
+              (click)="hidePassword.set(!hidePassword())"
+            >
+              <mat-icon>{{ hidePassword() ? 'visibility' : 'visibility_off' }}</mat-icon>
+            </button>
+          </mat-form-field>
+
+          @if (auth.error()) {
+            <p class="login-error" role="alert">{{ auth.error() }}</p>
+          }
+
+          <button matButton="filled" type="submit" class="login-button" [disabled]="auth.loading()">
+            @if (auth.loading()) {
+              <mat-spinner diameter="18" />
+            } @else {
+              Entrar
+            }
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</main>

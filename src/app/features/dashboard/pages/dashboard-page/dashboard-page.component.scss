@@ -1,0 +1,12 @@
+.dashboard-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--mat-sys-surface);
+}
+
+mat-card {
+  width: min(100%, 520px);
+  border-radius: 8px;
+}
