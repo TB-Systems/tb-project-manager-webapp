@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { apiConfig } from '../../../core/config/api.config';
-import { LoginRequestDto, LoginResponseDto } from './auth.dto';
+import { AuthSessionResponseDto, LoginRequestDto, LoginResponseDto } from './auth.dto';
 
 @Injectable({ providedIn: 'root' })
 export class AuthApi {
@@ -11,5 +11,9 @@ export class AuthApi {
 
   login(credentials: LoginRequestDto): Observable<LoginResponseDto> {
     return this.http.post<LoginResponseDto>(`${apiConfig.baseUrl}/auth/login`, credentials);
+  }
+
+  session(): Observable<AuthSessionResponseDto> {
+    return this.http.get<AuthSessionResponseDto>(`${apiConfig.baseUrl}/auth/session`);
   }
 }

@@ -1,11 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { finalize, map } from 'rxjs';
+import { Observable, catchError, finalize, map, of, tap } from 'rxjs';
 
 import { AuthUser } from '../domain/auth-user.model';
 import { AuthApi } from './auth.api';
-import { mapLoginResponseDto } from './auth.mapper';
+import { mapAuthSessionResponseDto, mapLoginResponseDto } from './auth.mapper';
 
 interface AuthState {
   user: AuthUser | null;
@@ -20,7 +20,7 @@ export class AuthFacade {
   private readonly state = signal<AuthState>({
     user: null,
     loading: false,
-    error: null
+    error: null,
   });
 
   readonly user = computed(() => this.state().user);
@@ -37,7 +37,7 @@ export class AuthFacade {
         map(mapLoginResponseDto),
         finalize(() => {
           this.state.update((state) => ({ ...state, loading: false }));
-        })
+        }),
       )
       .subscribe({
         next: (user) => {
@@ -47,10 +47,28 @@ export class AuthFacade {
         error: (error: HttpErrorResponse) => {
           this.state.update((state) => ({
             ...state,
-            error: getLoginErrorMessage(error)
+            error: getLoginErrorMessage(error),
           }));
-        }
+        },
       });
+  }
+
+  restoreSession(): Observable<boolean> {
+    if (this.isAuthenticated()) {
+      return of(true);
+    }
+
+    return this.api.session().pipe(
+      map(mapAuthSessionResponseDto),
+      tap((user) => {
+        this.state.update((state) => ({ ...state, user, error: null }));
+      }),
+      map(() => true),
+      catchError(() => {
+        this.state.update((state) => ({ ...state, user: null }));
+        return of(false);
+      }),
+    );
   }
 }
 

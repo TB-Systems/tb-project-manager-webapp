@@ -11,3 +11,5 @@ export interface LoginResponseDto {
   cpf: string;
   expires_at: string;
 }
+
+export type AuthSessionResponseDto = LoginResponseDto;
