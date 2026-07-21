@@ -24,6 +24,7 @@ export class AuthFacade {
   });
 
   readonly user = computed(() => this.state().user);
+  readonly isAuthenticated = computed(() => this.state().user !== null);
   readonly loading = computed(() => this.state().loading);
   readonly error = computed(() => this.state().error);
 
