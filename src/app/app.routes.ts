@@ -8,23 +8,46 @@ export const routes: Routes = [
     path: 'login',
     canActivate: [guestGuard],
     loadComponent: () =>
-      import('./features/auth/pages/login-page/login-page.component').then((m) => m.LoginPageComponent)
+      import('./features/auth/pages/login-page/login-page.component').then(
+        (m) => m.LoginPageComponent,
+      ),
   },
   {
-    path: 'dashboard',
     canActivate: [authGuard],
+    path: '',
     loadComponent: () =>
-      import('./features/dashboard/pages/dashboard-page/dashboard-page.component').then(
-        (m) => m.DashboardPageComponent
-      )
+      import('./core/layout/app-shell/app-shell.component').then((m) => m.AppShellComponent),
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/dashboard/pages/dashboard-page/dashboard-page.component').then(
+            (m) => m.DashboardPageComponent,
+          ),
+      },
+      {
+        path: 'customers',
+        loadComponent: () =>
+          import('./features/customers/pages/customers-page/customers-page.component').then(
+            (m) => m.CustomersPageComponent,
+          ),
+      },
+      {
+        path: 'projects',
+        loadComponent: () =>
+          import('./features/projects/pages/projects-page/projects-page.component').then(
+            (m) => m.ProjectsPageComponent,
+          ),
+      },
+    ],
   },
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'login'
+    redirectTo: 'login',
   },
   {
     path: '**',
-    redirectTo: 'login'
-  }
+    redirectTo: 'login',
+  },
 ];

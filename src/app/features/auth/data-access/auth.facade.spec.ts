@@ -12,6 +12,7 @@ describe('AuthFacade', () => {
   let api: {
     login: Mock<(credentials: LoginRequestDto) => Observable<LoginResponseDto>>;
     session: Mock<() => Observable<LoginResponseDto>>;
+    logout: Mock<() => Observable<{ logged_out: boolean }>>;
   };
   let router: { navigateByUrl: Mock<(url: string) => Promise<boolean>> };
   let facade: AuthFacade;
@@ -20,6 +21,7 @@ describe('AuthFacade', () => {
     api = {
       login: vi.fn(),
       session: vi.fn(),
+      logout: vi.fn(),
     };
     router = {
       navigateByUrl: vi.fn().mockResolvedValue(true),
@@ -114,5 +116,26 @@ describe('AuthFacade', () => {
     expect(restored).toBe(false);
     expect(facade.user()).toBeNull();
     expect(facade.isAuthenticated()).toBe(false);
+  });
+
+  it('deve limpar sessao e navegar para login ao fazer logout', () => {
+    api.login.mockReturnValue(
+      of({
+        id: 1,
+        name: 'Tiago',
+        username: 'tiago',
+        email: 'tiago@example.com',
+        cpf: '12345678900',
+        expires_at: '2026-07-20T16:00:00Z',
+      }),
+    );
+    api.logout.mockReturnValue(of({ logged_out: true }));
+
+    facade.login('tiago', 'senha-secreta');
+    facade.logout();
+
+    expect(api.logout).toHaveBeenCalled();
+    expect(facade.user()).toBeNull();
+    expect(router.navigateByUrl).toHaveBeenLastCalledWith('/login');
   });
 });

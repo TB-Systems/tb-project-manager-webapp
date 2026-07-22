@@ -13,11 +13,11 @@ html {
   ));
 
   @include mat.theme-overrides((
-    primary: #1c45b6,
+    primary: #3162cc,
     on-primary: #FFFFFF,
     primary-container: #E4E0FF,
-    on-primary-container: #113aa8,
-    secondary: #315F82,
+    on-primary-container: #2257ca,
+    secondary: #4c6980,
     on-secondary: #FFFFFF,
     secondary-container: #CEE5FF,
     on-secondary-container: #0C314A,
@@ -43,9 +43,9 @@ html {
 }
 
 :root {
-  --tib-deep-indigo: #1A1460;
-  --tib-navy: #0F2D5F;
-  --tib-violet: #7961E6;
+  --tib-deep-indigo: #3162cc;
+  --tib-navy: #2257ca;
+  --tib-violet: #4c6980;
   --tib-teal: #529897;
   --tib-green: #55B675;
   --tib-white: #FFFFFF;

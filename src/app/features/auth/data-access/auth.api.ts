@@ -16,4 +16,8 @@ export class AuthApi {
   session(): Observable<AuthSessionResponseDto> {
     return this.http.get<AuthSessionResponseDto>(`${apiConfig.baseUrl}/auth/session`);
   }
+
+  logout(): Observable<{ logged_out: boolean }> {
+    return this.http.post<{ logged_out: boolean }>(`${apiConfig.baseUrl}/auth/logout`, {});
+  }
 }

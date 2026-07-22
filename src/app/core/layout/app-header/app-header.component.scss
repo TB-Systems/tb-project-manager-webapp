@@ -1,0 +1,71 @@
+.app-header {
+  position: fixed;
+  inset: 0 0 auto 80px;
+  z-index: 20;
+  width: auto;
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 18px 0 24px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--tib-deep-indigo) 92%, var(--tib-violet)),
+    color-mix(in srgb, var(--tib-navy) 90%, var(--tib-teal))
+  );
+  color: var(--mat-sys-on-surface);
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--tib-white);
+}
+
+.logout-button {
+  min-width: 84px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  gap: 6px;
+  color: var(--tib-white);
+  background: color-mix(in srgb, var(--tib-white) 12%, transparent);
+  border: 0;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background: color-mix(in srgb, var(--tib-white) 18%, transparent);
+}
+
+.logout-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+  font-size: 20px;
+  line-height: 20px;
+}
+
+.logout-label {
+  display: block;
+  line-height: 20px;
+}
+
+@media (max-width: 720px) {
+  .app-header {
+    inset: 0 0 auto 0;
+    width: auto;
+    border-radius: 0;
+  }
+}

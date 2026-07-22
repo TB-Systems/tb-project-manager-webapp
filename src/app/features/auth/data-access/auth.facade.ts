@@ -70,6 +70,18 @@ export class AuthFacade {
       }),
     );
   }
+
+  logout(): void {
+    this.api.logout().subscribe({
+      next: () => this.clearSessionAndNavigateToLogin(),
+      error: () => this.clearSessionAndNavigateToLogin(),
+    });
+  }
+
+  private clearSessionAndNavigateToLogin(): void {
+    this.state.update((state) => ({ ...state, user: null, error: null }));
+    void this.router.navigateByUrl('/login');
+  }
 }
 
 function getLoginErrorMessage(error: HttpErrorResponse): string {

@@ -1,8 +1,152 @@
 <main class="dashboard-page">
-  <mat-card appearance="outlined">
-    <mat-card-header>
-      <mat-card-title>TB Project Manager</mat-card-title>
-      <mat-card-subtitle>Login realizado com sucesso.</mat-card-subtitle>
-    </mat-card-header>
-  </mat-card>
+  <section class="dashboard-heading">
+    <div>
+      <h2>Dashboard</h2>
+      <p>{{ dashboard.total() }} projetos</p>
+    </div>
+  </section>
+
+  <section class="projects-section">
+    <div class="projects-section-header">
+      <h3>Projetos</h3>
+      <p>Clientes e servicos vinculados</p>
+    </div>
+
+    @if (dashboard.loading()) {
+      <div class="loading-state">
+        <mat-spinner diameter="36" />
+      </div>
+    } @else if (dashboard.error()) {
+      <p class="error-state">{{ dashboard.error() }}</p>
+    } @else if (dashboard.projects().length === 0) {
+      <p class="empty-state">Nenhum projeto encontrado.</p>
+    } @else {
+      <mat-accordion multi>
+        @for (project of dashboard.projects(); track project.id) {
+          <mat-expansion-panel class="project-panel" [class]="projectStatusClass(project.status)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>{{ project.name }}</mat-panel-title>
+              <mat-panel-description>
+                <span class="status-pill">{{ projectStatusLabel(project.status) }}</span>
+                <span class="count-pill">{{ project.services.length }} servicos</span>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="project-details">
+              <section class="detail-section">
+                <div class="section-header">
+                  <h4>Projeto</h4>
+                  <a matButton="outlined" [href]="'/projects/' + project.id">Detalhe</a>
+                </div>
+
+                <dl class="info-grid">
+                  <div>
+                    <dt>Slug</dt>
+                    <dd>{{ project.slug }}</dd>
+                  </div>
+                  <div>
+                    <dt>Status</dt>
+                    <dd>
+                      <span class="status-chip">{{ projectStatusLabel(project.status) }}</span>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt>Atualizado em</dt>
+                    <dd>{{ project.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+                  </div>
+                  @if (project.repoUrl) {
+                    <div>
+                      <dt>Repositorio</dt>
+                      <dd>
+                        <a [href]="project.repoUrl" target="_blank" rel="noreferrer">Abrir</a>
+                      </dd>
+                    </div>
+                  }
+                </dl>
+
+                @if (project.description) {
+                  <p class="description">{{ project.description }}</p>
+                }
+              </section>
+
+              <mat-divider />
+
+              <section class="detail-section">
+                <div class="section-header">
+                  <h4>Cliente</h4>
+                  @if (project.customer) {
+                    <a matButton="outlined" [href]="customerDetailUrl(project.customer)">Detalhe</a>
+                  }
+                </div>
+
+                @if (project.customer) {
+                  <dl class="info-grid">
+                    <div>
+                      <dt>Nome</dt>
+                      <dd>{{ project.customer.name }}</dd>
+                    </div>
+                    <div>
+                      <dt>Status</dt>
+                      <dd>
+                        <span class="customer-chip">{{
+                          customerStatusLabel(project.customer.status)
+                        }}</span>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Valor do projeto</dt>
+                      <dd>{{ money(project.customer.projectValue) }}</dd>
+                    </div>
+                    <div>
+                      <dt>Mensalidade</dt>
+                      <dd>{{ money(project.customer.monthlyValue) }}</dd>
+                    </div>
+                    <div>
+                      <dt>Vencimento</dt>
+                      <dd>Dia {{ project.customer.dueDay }}</dd>
+                    </div>
+                    <div>
+                      <dt>Pagamento</dt>
+                      <dd>
+                        <span class="payment-chip">
+                          {{ paymentStatusLabel(project.customer.projectPaymentStatus) }}
+                        </span>
+                      </dd>
+                    </div>
+                  </dl>
+                } @else {
+                  <p class="empty-state inline">Projeto sem cliente vinculado.</p>
+                }
+              </section>
+
+              <mat-divider />
+
+              <section class="detail-section">
+                <h4>Servicos</h4>
+
+                @if (project.services.length > 0) {
+                  <div class="services-list">
+                    @for (service of project.services; track service.id) {
+                      <article class="service-row" [class]="projectStatusClass(service.status)">
+                        <div>
+                          <strong>{{ service.name }}</strong>
+                          <span
+                            >{{ projectTypeLabel(service.type) }} -
+                            {{ projectStatusLabel(service.status) }}</span
+                          >
+                        </div>
+                        <a matButton="outlined" [href]="serviceDetailUrl(service)">Detalhe</a>
+                      </article>
+                    }
+                  </div>
+                } @else {
+                  <p class="empty-state inline">Nenhum servico vinculado.</p>
+                }
+              </section>
+            </div>
+          </mat-expansion-panel>
+        }
+      </mat-accordion>
+    }
+  </section>
 </main>
