@@ -17,7 +17,14 @@
         <mat-spinner diameter="36" />
       </div>
     } @else if (dashboard.error()) {
-      <p class="error-state">{{ dashboard.error() }}</p>
+      <section class="feedback-panel error-feedback" role="alert" aria-live="polite">
+        <div class="feedback-copy">
+          <p class="feedback-label">Erro ao carregar</p>
+          <h4>Nao conseguimos buscar os projetos</h4>
+          <p>{{ dashboard.error() }}</p>
+        </div>
+        <button class="retry-button" type="button" (click)="retry()">Tentar novamente</button>
+      </section>
     } @else if (dashboard.projects().length === 0) {
       <p class="empty-state">Nenhum projeto encontrado.</p>
     } @else {

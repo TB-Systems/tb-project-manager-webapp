@@ -28,6 +28,10 @@ export class DashboardPageComponent implements OnInit {
     this.dashboard.load();
   }
 
+  protected retry(): void {
+    this.dashboard.load();
+  }
+
   protected projectStatusLabel(status: number): string {
     return projectStatusLabels[status] ?? 'Desconhecido';
   }
