@@ -29,6 +29,10 @@
     var(--mat-sys-surface);
 }
 
+.navigation-scrim {
+  display: none;
+}
+
 @media (max-width: 720px) {
   :host {
     padding: 64px 0 0;
@@ -41,7 +45,13 @@
     border-top-left-radius: 0;
   }
 
-  app-navigation-rail {
-    display: none;
+  .navigation-scrim {
+    position: fixed;
+    inset: 64px 0 0;
+    z-index: 19;
+    display: block;
+    padding: 0;
+    border: 0;
+    background: color-mix(in srgb, black 32%, transparent);
   }
 }

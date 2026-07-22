@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 interface NavigationItem {
@@ -15,6 +15,9 @@ interface NavigationItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationRailComponent {
+  readonly open = input(false);
+  readonly close = output<void>();
+
   protected readonly items: NavigationItem[] = [
     { label: 'Dashboard', icon: 'space_dashboard', route: '/dashboard' },
     { label: 'Clientes', icon: 'identity_platform', route: '/customers' },

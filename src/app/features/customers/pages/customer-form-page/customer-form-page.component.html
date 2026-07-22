@@ -1,0 +1,86 @@
+<main class="customer-form-page">
+  <section class="form-heading">
+    <div>
+      <a routerLink="/customers">Clientes</a>
+      <h2>{{ editing ? 'Editar cliente' : 'Novo cliente' }}</h2>
+      <p>{{ editing ? 'Atualize os dados cadastrais.' : 'Cadastre um novo cliente.' }}</p>
+    </div>
+  </section>
+
+  @if (editing && customers.detailLoading()) {
+    <app-feedback-state mode="loading" />
+  } @else if (editing && customers.detailError()) {
+    <app-feedback-state
+      mode="error"
+      title="Nao conseguimos buscar o cliente"
+      [message]="customers.detailError() ?? ''"
+      (action)="retry()"
+    />
+  } @else {
+    <form class="customer-form" [formGroup]="form" (ngSubmit)="save()">
+      @if (customers.saveError()) {
+        <p class="inline-error">{{ customers.saveError() }}</p>
+      }
+
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="name" maxlength="100" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Slug</mat-label>
+          <input matInput formControlName="slug" maxlength="50" />
+          <mat-hint>Use letras minusculas, numeros e hifens.</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo de documento</mat-label>
+          <mat-select formControlName="documentType">
+            <mat-option [value]="1">CPF</mat-option>
+            <mat-option [value]="2">CNPJ</mat-option>
+            <mat-option [value]="3">Outro</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ documentLabel() }}</mat-label>
+          <input matInput formControlName="document" maxlength="100" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" maxlength="100" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Celular</mat-label>
+          <input matInput formControlName="phone" maxlength="50" placeholder="+55 11 99999-9999" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option [value]="1">Ativo</mat-option>
+            <mat-option [value]="2">Cancelado</mat-option>
+            <mat-option [value]="3">Suspenso</mat-option>
+            <mat-option [value]="4">Onboarding</mat-option>
+            <mat-option [value]="5">Pagamento atrasado</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-row">
+          <mat-label>URL</mat-label>
+          <input matInput type="url" formControlName="url" maxlength="500" />
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <a class="secondary-action" routerLink="/customers">Cancelar</a>
+        <button class="primary-action" type="submit" [disabled]="customers.saving()">
+          {{ customers.saving() ? 'Salvando...' : editing ? 'Salvar cliente' : 'Criar cliente' }}
+        </button>
+      </div>
+    </form>
+  }
+</main>

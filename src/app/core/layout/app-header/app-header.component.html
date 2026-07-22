@@ -1,5 +1,10 @@
 <mat-toolbar class="app-header">
-  <h1>Project Manager</h1>
+  <div class="header-brand">
+    <button type="button" aria-label="Abrir menu" class="menu-button" (click)="menuClick.emit()">
+      <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+    </button>
+    <h1>Project Manager</h1>
+  </div>
 
   <button type="button" aria-label="Sair" class="logout-button" (click)="logout()">
     <span class="material-symbols-outlined logout-icon" aria-hidden="true">logout</span>

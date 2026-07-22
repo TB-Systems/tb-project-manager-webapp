@@ -1,0 +1,85 @@
+<main class="customer-detail-page">
+  <section class="detail-heading">
+    <div>
+      <a routerLink="/customers">Clientes</a>
+      <h2>{{ customers.customer()?.name ?? 'Cliente' }}</h2>
+      <p>{{ customers.customer()?.email ?? 'Detalhe do cliente' }}</p>
+    </div>
+
+    @if (customers.customer()) {
+      <div class="heading-actions">
+        <a class="secondary-action" [routerLink]="['/customers', customerId, 'edit']">Editar</a>
+        <button
+          class="danger-action"
+          type="button"
+          [disabled]="customers.deleting()"
+          (click)="confirmDelete()"
+        >
+          {{ customers.deleting() ? 'Deletando...' : 'Deletar' }}
+        </button>
+      </div>
+    }
+  </section>
+
+  @if (customers.detailLoading()) {
+    <app-feedback-state mode="loading" />
+  } @else if (customers.detailError()) {
+    <app-feedback-state
+      mode="error"
+      title="Nao conseguimos buscar o cliente"
+      [message]="customers.detailError() ?? ''"
+      (action)="retry()"
+    />
+  } @else if (customers.customer(); as customer) {
+    @if (customers.saveError()) {
+      <p class="inline-error">{{ customers.saveError() }}</p>
+    }
+
+    <section class="customer-panel status-{{ customer.status }}">
+      <div class="panel-header">
+        <div>
+          <h3>{{ customer.name }}</h3>
+          <p>{{ customer.slug }}</p>
+        </div>
+        <span>{{ customerStatusLabel(customer.status) }}</span>
+      </div>
+
+      <dl>
+        <div>
+          <dt>Email</dt>
+          <dd>{{ customer.email }}</dd>
+        </div>
+        <div>
+          <dt>Telefone</dt>
+          <dd>{{ customer.phone || '-' }}</dd>
+        </div>
+        <div>
+          <dt>Tipo de documento</dt>
+          <dd>{{ documentTypeLabel(customer.documentType) }}</dd>
+        </div>
+        <div>
+          <dt>Documento</dt>
+          <dd>{{ formatDocument(customer) }}</dd>
+        </div>
+        <div>
+          <dt>URL</dt>
+          <dd>
+            @if (customer.url) {
+              <a [href]="customer.url" target="_blank" rel="noreferrer">{{ customer.url }}</a>
+            } @else {
+              -
+            }
+          </dd>
+        </div>
+        <div>
+          <dt>Criado em</dt>
+          <dd>{{ customer.createdAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+        </div>
+        <div>
+          <dt>Atualizado em</dt>
+          <dd>{{ customer.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+        </div>
+      </dl>
+    </section>
+  }
+</main>

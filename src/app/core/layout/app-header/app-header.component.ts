@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AuthFacade } from '../../../features/auth/data-access/auth.facade';
@@ -12,6 +12,7 @@ import { AuthFacade } from '../../../features/auth/data-access/auth.facade';
 })
 export class AppHeaderComponent {
   private readonly auth = inject(AuthFacade);
+  readonly menuClick = output<void>();
 
   logout(): void {
     this.auth.logout();

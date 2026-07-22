@@ -218,73 +218,6 @@ mat-divider {
   border-color: color-mix(in srgb, var(--tib-white) 46%, transparent);
 }
 
-.loading-state {
-  min-height: 180px;
-  display: grid;
-  place-items: center;
-}
-
-.feedback-panel {
-  min-height: 220px;
-  display: grid;
-  place-items: center;
-  gap: 18px;
-  padding: 32px 24px 40px;
-  border-radius: 0;
-  text-align: center;
-}
-
-.error-feedback {
-  background: transparent;
-  color: var(--mat-sys-on-error-container);
-}
-
-.feedback-copy {
-  max-width: 420px;
-  display: grid;
-  gap: 6px;
-  justify-items: center;
-}
-
-.feedback-label {
-  width: fit-content;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--mat-sys-error) 14%, transparent);
-  color: var(--mat-sys-error);
-  font-size: 0.76rem;
-  font-weight: 700;
-}
-
-.feedback-copy h4 {
-  font-size: 1.05rem;
-}
-
-.feedback-copy p:last-child {
-  color: color-mix(in srgb, var(--mat-sys-on-error-container) 72%, transparent);
-}
-
-.retry-button {
-  min-height: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 18px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--tib-deep-indigo);
-  color: var(--tib-white);
-  font-family: inherit;
-  font-size: 0.86rem;
-  font-weight: 700;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.retry-button:hover {
-  background: color-mix(in srgb, var(--tib-deep-indigo) 84%, var(--tib-violet));
-}
-
 .empty-state,
 .error-state {
   padding: 18px 0;
@@ -361,8 +294,7 @@ a {
   }
 
   .service-row,
-  .section-header,
-  .feedback-panel {
+  .section-header {
     align-items: stretch;
     flex-direction: column;
   }

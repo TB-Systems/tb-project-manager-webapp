@@ -33,6 +33,27 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'customers/new',
+        loadComponent: () =>
+          import('./features/customers/pages/customer-form-page/customer-form-page.component').then(
+            (m) => m.CustomerFormPageComponent,
+          ),
+      },
+      {
+        path: 'customers/:id/edit',
+        loadComponent: () =>
+          import('./features/customers/pages/customer-form-page/customer-form-page.component').then(
+            (m) => m.CustomerFormPageComponent,
+          ),
+      },
+      {
+        path: 'customers/:id',
+        loadComponent: () =>
+          import(
+            './features/customers/pages/customer-detail-page/customer-detail-page.component'
+          ).then((m) => m.CustomerDetailPageComponent),
+      },
+      {
         path: 'projects',
         loadComponent: () =>
           import('./features/projects/pages/projects-page/projects-page.component').then(

@@ -1,7 +1,59 @@
-<main class="top-level-page">
-  <mat-card appearance="outlined">
-    <mat-card-header>
-      <mat-card-title>Clientes</mat-card-title>
-    </mat-card-header>
-  </mat-card>
+<main class="customers-page">
+  <section class="customers-heading">
+    <div>
+      <h2>Clientes</h2>
+      <p>{{ customers.customers().length }} clientes carregados</p>
+    </div>
+
+    <a class="primary-action" routerLink="/customers/new">Novo cliente</a>
+  </section>
+
+  @if (customers.listLoading()) {
+    <app-feedback-state mode="loading" />
+  } @else if (customers.listError()) {
+    <app-feedback-state
+      mode="error"
+      title="Nao conseguimos buscar os clientes"
+      [message]="customers.listError() ?? ''"
+      (action)="retry()"
+    />
+  } @else if (customers.customers().length === 0) {
+    <app-feedback-state
+      mode="empty"
+      title="Nenhum cliente encontrado"
+      message="Quando houver clientes cadastrados, eles aparecerao aqui."
+    />
+  } @else {
+    <section class="customers-list" aria-label="Clientes">
+      @for (customer of customers.customers(); track customer.id) {
+        <a class="customer-card status-{{ customer.status }}" [routerLink]="['/customers', customer.id]">
+          <div>
+            <h3>{{ customer.name }}</h3>
+            <p>{{ customer.email }}</p>
+          </div>
+
+          <dl>
+            <div>
+              <dt>Telefone</dt>
+              <dd>{{ customer.phone || '-' }}</dd>
+            </div>
+            <div>
+              <dt>Documento</dt>
+              <dd>{{ formatDocument(customer.document, customer.documentType) }}</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>
+                <span>{{ customerStatusLabel(customer.status) }}</span>
+              </dd>
+            </div>
+          </dl>
+        </a>
+      }
+    </section>
+
+    @if (customers.listLoadingMore()) {
+      <app-feedback-state mode="loading" />
+    }
+  }
 </main>

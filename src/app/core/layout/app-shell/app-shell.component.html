@@ -1,5 +1,14 @@
-<app-header />
-<app-navigation-rail />
+<app-header (menuClick)="toggleNavigation()" />
+<app-navigation-rail [open]="navigationOpen()" (close)="closeNavigation()" />
+
+@if (navigationOpen()) {
+  <button
+    class="navigation-scrim"
+    type="button"
+    aria-label="Fechar menu"
+    (click)="closeNavigation()"
+  ></button>
+}
 
 <main class="app-shell-content">
   <router-outlet />

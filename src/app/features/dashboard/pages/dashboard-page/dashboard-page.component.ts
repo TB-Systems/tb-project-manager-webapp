@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+import { FeedbackStateComponent } from '../../../../shared/feedback-state/feedback-state.component';
 import { DashboardFacade } from '../../data-access/dashboard.facade';
 import { DashboardCustomer, DashboardProjectService } from '../../domain/dashboard-project.model';
 
@@ -15,7 +15,7 @@ import { DashboardCustomer, DashboardProjectService } from '../../domain/dashboa
     MatButtonModule,
     MatDividerModule,
     MatExpansionModule,
-    MatProgressSpinnerModule,
+    FeedbackStateComponent,
   ],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss',

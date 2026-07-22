@@ -1,0 +1,25 @@
+@if (mode() === 'loading') {
+  <section class="feedback-state loading-state" aria-live="polite">
+    <mat-spinner diameter="36" />
+  </section>
+} @else {
+  <section class="feedback-state" [class.error-state]="mode() === 'error'" aria-live="polite">
+    <div class="feedback-copy">
+      @if (mode() === 'error') {
+        <p class="feedback-label">Erro ao carregar</p>
+      }
+      @if (title()) {
+        <h4>{{ title() }}</h4>
+      }
+      @if (message()) {
+        <p>{{ message() }}</p>
+      }
+    </div>
+
+    @if (mode() === 'error') {
+      <button class="feedback-action" type="button" (click)="action.emit()">
+        {{ actionLabel() }}
+      </button>
+    }
+  </section>
+}

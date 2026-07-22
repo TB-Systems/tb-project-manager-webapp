@@ -1,0 +1,155 @@
+.customer-detail-page {
+  display: grid;
+  gap: 18px;
+}
+
+.detail-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 4px 0;
+}
+
+h2,
+h3,
+p,
+dl {
+  margin: 0;
+}
+
+h2 {
+  margin-top: 6px;
+  font-size: 1.8rem;
+  line-height: 1.2;
+  color: var(--tib-deep-indigo);
+}
+
+.detail-heading p,
+.panel-header p {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+a {
+  color: var(--mat-sys-primary);
+}
+
+.heading-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.secondary-action,
+.danger-action {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.secondary-action {
+  background: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface);
+}
+
+.danger-action {
+  background: var(--mat-sys-error);
+  color: var(--mat-sys-on-error);
+}
+
+.danger-action:disabled {
+  opacity: 0.68;
+  cursor: default;
+}
+
+.customer-panel {
+  --panel-bg: color-mix(in srgb, var(--tib-violet) 26%, var(--mat-sys-surface-container-lowest));
+  display: grid;
+  gap: 20px;
+  padding: 22px;
+  border-radius: 8px;
+  background: var(--panel-bg, var(--mat-sys-surface-container-lowest));
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.panel-header h3 {
+  font-size: 1.1rem;
+}
+
+.panel-header span {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--status-bg, var(--tib-green));
+  color: var(--tib-white);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+dt {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+dd {
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.inline-error {
+  color: var(--mat-sys-error);
+  font-weight: 600;
+}
+
+.status-1 {
+  --status-bg: var(--tib-green);
+}
+
+.status-2,
+.status-3,
+.status-5 {
+  --status-bg: var(--mat-sys-error);
+}
+
+.status-4 {
+  --status-bg: var(--tib-violet);
+}
+
+@media (max-width: 840px) {
+  .detail-heading,
+  .panel-header {
+    display: grid;
+    align-items: stretch;
+  }
+
+  .heading-actions {
+    flex-wrap: wrap;
+  }
+
+  dl {
+    grid-template-columns: 1fr;
+  }
+}

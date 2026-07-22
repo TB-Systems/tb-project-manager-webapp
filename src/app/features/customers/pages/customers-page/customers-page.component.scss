@@ -1,8 +1,136 @@
-.top-level-page {
+.customers-page {
   display: grid;
-  gap: 20px;
+  gap: 18px;
 }
 
-mat-card {
+.customers-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 4px 0;
+}
+
+h2,
+h3,
+p,
+dl {
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.8rem;
+  line-height: 1.2;
+  color: var(--tib-deep-indigo);
+}
+
+.customers-heading p {
+  margin-top: 4px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.primary-action {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--tib-deep-indigo);
+  color: var(--tib-white);
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.customers-list {
+  display: grid;
+  gap: 14px;
+}
+
+.customer-card {
+  --card-bg: color-mix(in srgb, var(--tib-violet) 22%, var(--mat-sys-surface-container-lowest));
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 2fr);
+  gap: 18px;
+  padding: 20px 22px;
   border-radius: 8px;
+  background: var(--card-bg, var(--mat-sys-surface-container-lowest));
+  color: var(--mat-sys-on-surface);
+  text-decoration: none;
+}
+
+.customer-card:hover {
+  background: color-mix(in srgb, var(--card-bg, var(--mat-sys-surface-container-lowest)) 88%, var(--tib-white));
+}
+
+.customer-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.customer-card p {
+  margin-top: 6px;
+  color: var(--mat-sys-on-surface-variant);
+  overflow-wrap: anywhere;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+dt {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+dd {
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+dd span {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--status-bg, var(--tib-green));
+  color: var(--tib-white);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.status-1 {
+  --status-bg: var(--tib-green);
+}
+
+.status-2,
+.status-3,
+.status-5 {
+  --status-bg: var(--mat-sys-error);
+}
+
+.status-4 {
+  --status-bg: var(--tib-violet);
+}
+
+@media (max-width: 840px) {
+  .customers-heading,
+  .customer-card {
+    align-items: stretch;
+    grid-template-columns: 1fr;
+  }
+
+  .customers-heading {
+    display: grid;
+  }
+
+  dl {
+    grid-template-columns: 1fr;
+  }
 }
