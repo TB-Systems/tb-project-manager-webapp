@@ -91,6 +91,34 @@ export const routes: Routes = [
             (m) => m.ProjectDetailPageComponent,
           ),
       },
+      {
+        path: 'customer-projects/new',
+        loadComponent: () =>
+          import(
+            './features/projects/pages/customer-project-form-page/customer-project-form-page.component'
+          ).then((m) => m.CustomerProjectFormPageComponent),
+      },
+      {
+        path: 'customer-projects/:id/edit',
+        loadComponent: () =>
+          import(
+            './features/projects/pages/customer-project-form-page/customer-project-form-page.component'
+          ).then((m) => m.CustomerProjectFormPageComponent),
+      },
+      {
+        path: 'project-services/new',
+        loadComponent: () =>
+          import(
+            './features/projects/pages/project-service-form-page/project-service-form-page.component'
+          ).then((m) => m.ProjectServiceFormPageComponent),
+      },
+      {
+        path: 'project-services/:id/edit',
+        loadComponent: () =>
+          import(
+            './features/projects/pages/project-service-form-page/project-service-form-page.component'
+          ).then((m) => m.ProjectServiceFormPageComponent),
+      },
     ],
   },
   {

@@ -62,8 +62,42 @@ export interface ProjectServiceDto {
   health_check_url: string;
 }
 
+export interface ProjectServiceRequestDto {
+  project_id: string;
+  name: string;
+  type: number;
+  url: string;
+  repo_url: string;
+  health_check_url: string;
+}
+
+export interface ProjectServiceUpdateRequestDto extends ProjectServiceRequestDto {
+  status: number;
+}
+
 export interface ProjectServiceListResponseDto {
   items: ProjectServiceDto[];
   page: number;
   page_count: number;
+}
+
+export interface CustomerProjectDto {
+  id: string;
+  project_id: string;
+  customer_id: string;
+  project_value: number;
+  monthly_value: number;
+  due_day: number;
+  project_payment_status: number;
+  last_payment: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CustomerProjectRequestDto {
+  project_id: string;
+  customer_id: string;
+  project_value: number;
+  monthly_value: number;
+  due_day: number;
 }

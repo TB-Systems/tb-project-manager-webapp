@@ -135,14 +135,53 @@
                   <div class="services-list">
                     @for (service of project.services; track service.id) {
                       <article class="service-row" [class]="projectStatusClass(service.status)">
-                        <div>
+                        <div class="service-row-header">
                           <strong>{{ service.name }}</strong>
                           <span
                             >{{ projectTypeLabel(service.type) }} -
                             {{ projectStatusLabel(service.status) }}</span
                           >
                         </div>
-                        <a matButton="outlined" [href]="serviceDetailUrl(service)">Detalhe</a>
+                        <dl class="service-info-grid">
+                          <div>
+                            <dt>Tipo</dt>
+                            <dd>{{ projectTypeLabel(service.type) }}</dd>
+                          </div>
+                          <div>
+                            <dt>Status</dt>
+                            <dd>{{ projectStatusLabel(service.status) }}</dd>
+                          </div>
+                          <div>
+                            <dt>URL</dt>
+                            <dd>
+                              @if (service.url) {
+                                <a [href]="service.url" target="_blank" rel="noreferrer">Abrir</a>
+                              } @else {
+                                -
+                              }
+                            </dd>
+                          </div>
+                          <div>
+                            <dt>Repositorio</dt>
+                            <dd>
+                              @if (service.repoUrl) {
+                                <a [href]="service.repoUrl" target="_blank" rel="noreferrer">Abrir</a>
+                              } @else {
+                                -
+                              }
+                            </dd>
+                          </div>
+                          <div>
+                            <dt>Health check</dt>
+                            <dd>
+                              @if (service.healthCheckUrl) {
+                                <a [href]="service.healthCheckUrl" target="_blank" rel="noreferrer">Abrir</a>
+                              } @else {
+                                -
+                              }
+                            </dd>
+                          </div>
+                        </dl>
                       </article>
                     }
                   </div>

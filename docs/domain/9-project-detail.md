@@ -16,6 +16,9 @@ Permitir que o usuário consiga vizualizar o projeto, recebendo o id dele pela u
 - Vai haver um botão de vincular cliente e um de criar serviço para o projeto.
 - O de vincular cliente vai direcionar para a tela de vincular projeto com cliente.
 - O de criar serviço vai direcionar para a tela de criar serviço.
+- No botão de vincular cliente ao projeto, vai direcionar para uma tela de formulário do cliente com o projeto.
+- Ao lado do botão de vincular, deve ter um de editar a relação, caso tenha cliente vinculado.
+- No botão de vincular serviço ao projeto, vai direcionar para uma tela de formulário de criação de serviço.
 
 ## UI
 

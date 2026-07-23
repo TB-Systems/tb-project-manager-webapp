@@ -49,6 +49,34 @@ export interface ProjectService {
   healthCheckUrl: string;
 }
 
+export interface ProjectServiceFormValue {
+  name: string;
+  type: number;
+  url: string;
+  repoUrl: string;
+  healthCheckUrl: string;
+}
+
+export interface CustomerProject {
+  id: string;
+  projectId: string;
+  customerId: string;
+  projectValue: number;
+  monthlyValue: number;
+  dueDay: number;
+  projectPaymentStatus: number;
+  lastPayment: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CustomerProjectFormValue {
+  customerId: string;
+  projectValue: string;
+  monthlyValue: string;
+  dueDay: number;
+}
+
 export interface ProjectFormValue {
   name: string;
   description: string;

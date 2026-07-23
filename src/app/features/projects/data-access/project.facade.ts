@@ -171,6 +171,31 @@ export class ProjectFacade {
     });
   }
 
+  updateServiceStatus(service: ProjectService, status: number, projectId: string): void {
+    this.detailState.update((state) => ({ ...state, saving: true, actionError: null }));
+
+    this.api
+      .updateService(service.id, {
+        project_id: service.projectId,
+        name: service.name,
+        type: service.type,
+        url: service.url,
+        repo_url: service.repoUrl,
+        health_check_url: service.healthCheckUrl,
+        status,
+      })
+      .pipe(finalize(() => this.detailState.update((state) => ({ ...state, saving: false }))))
+      .subscribe({
+        next: () => this.loadProject(projectId),
+        error: () => {
+          this.detailState.update((state) => ({
+            ...state,
+            actionError: 'Nao foi possivel atualizar o status do servico.',
+          }));
+        },
+      });
+  }
+
   clearDetail(): void {
     this.detailState.set({
       project: null,

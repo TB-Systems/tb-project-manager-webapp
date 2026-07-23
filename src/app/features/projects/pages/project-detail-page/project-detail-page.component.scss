@@ -6,7 +6,7 @@
 .detail-heading,
 .panel-header,
 .section-title,
-.service-card {
+.service-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -51,7 +51,8 @@ a {
 }
 
 .heading-actions,
-.service-actions {
+.service-actions,
+.section-actions {
   display: flex;
   gap: 10px;
 }
@@ -97,6 +98,15 @@ a {
   padding: 20px 22px;
   border-radius: 8px;
   background: color-mix(in srgb, var(--tib-violet) 22%, var(--mat-sys-surface-container-lowest));
+}
+
+.service-card {
+  display: grid;
+  gap: 16px;
+}
+
+.service-info {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .panel-header span {
@@ -145,9 +155,10 @@ dd {
   .detail-heading,
   .panel-header,
   .section-title,
-  .service-card,
+  .service-card-header,
   .heading-actions,
-  .service-actions {
+  .service-actions,
+  .section-actions {
     display: grid;
     align-items: stretch;
   }

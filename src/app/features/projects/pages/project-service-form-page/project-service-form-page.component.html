@@ -1,0 +1,64 @@
+<main class="service-form-page">
+  <section class="form-heading">
+    <div>
+      <a [routerLink]="projectId() ? ['/projects', projectId()] : '/projects'">Projetos</a>
+      <h2>{{ editing ? 'Editar servico' : 'Novo servico' }}</h2>
+      <p>Servico monitoravel vinculado ao projeto.</p>
+    </div>
+  </section>
+
+  @if (loading()) {
+    <app-feedback-state mode="loading" />
+  } @else if (error()) {
+    <app-feedback-state mode="error" title="Nao conseguimos carregar o servico" [message]="error() ?? ''" (action)="load()" />
+  } @else {
+    <form class="service-form" [formGroup]="form" (ngSubmit)="save()">
+      @if (saveError()) {
+        <p class="inline-error">{{ saveError() }}</p>
+      }
+
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="name" maxlength="100" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="type">
+            <mat-option [value]="1">Backend</mat-option>
+            <mat-option [value]="2">Frontend</mat-option>
+            <mat-option [value]="3">Android</mat-option>
+            <mat-option [value]="4">iOS</mat-option>
+            <mat-option [value]="5">Desktop</mat-option>
+            <mat-option [value]="6">Automacao</mat-option>
+            <mat-option [value]="7">Database</mat-option>
+            <mat-option [value]="8">Outro</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>URL</mat-label>
+          <input matInput type="url" formControlName="url" maxlength="500" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Repositorio</mat-label>
+          <input matInput type="url" formControlName="repoUrl" maxlength="500" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-row">
+          <mat-label>Health check URL</mat-label>
+          <input matInput type="url" formControlName="healthCheckUrl" maxlength="500" />
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <a class="secondary-action" [routerLink]="projectId() ? ['/projects', projectId()] : '/projects'">Cancelar</a>
+        <button class="primary-action" type="submit" [disabled]="saving()">
+          {{ saving() ? 'Salvando...' : editing ? 'Salvar servico' : 'Criar servico' }}
+        </button>
+      </div>
+    </form>
+  }
+</main>

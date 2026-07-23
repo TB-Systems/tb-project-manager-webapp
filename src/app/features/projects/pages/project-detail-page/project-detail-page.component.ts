@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { FeedbackStateComponent } from '../../../../shared/feedback-state/feedback-state.component';
 import { ProjectFacade } from '../../data-access/project.facade';
+import { ProjectService } from '../../domain/project.model';
 
 @Component({
   selector: 'app-project-detail-page',
@@ -56,6 +57,24 @@ export class ProjectDetailPageComponent implements OnInit {
         }
       },
     );
+  }
+
+  protected openServiceStatusDialog(service: ProjectService): void {
+    this.dialog
+      .open(ProjectServiceStatusDialogComponent, {
+        width: 'min(420px, calc(100vw - 32px))',
+        data: {
+          serviceName: service.name,
+          status: service.status,
+          statuses: projectStatusOptions,
+        },
+      })
+      .afterClosed()
+      .subscribe((status: number | undefined) => {
+        if (status && status !== service.status) {
+          this.projects.updateServiceStatus(service, status, this.projectId);
+        }
+      });
   }
 
   protected projectStatusLabel(status: number): string {
@@ -148,6 +167,119 @@ export class ProjectConfirmDialogComponent {
   }
 }
 
+@Component({
+  selector: 'app-project-service-status-dialog',
+  template: `
+    <section class="status-dialog">
+      <div>
+        <p>Servico</p>
+        <h2>{{ data.serviceName }}</h2>
+      </div>
+
+      <label>
+        Status
+        <select [value]="selectedStatus" (change)="onStatusChange($any($event.target).value)">
+          @for (status of data.statuses; track status.value) {
+            <option [value]="status.value">{{ status.label }}</option>
+          }
+        </select>
+      </label>
+
+      <div class="dialog-actions">
+        <button class="secondary-action" type="button" (click)="close()">Cancelar</button>
+        <button class="primary-action" type="button" (click)="save()">Atualizar</button>
+      </div>
+    </section>
+  `,
+  styles: `
+    .status-dialog {
+      display: grid;
+      gap: 18px;
+      padding: 22px;
+      background: var(--mat-sys-surface-container-lowest);
+    }
+    h2,
+    p {
+      margin: 0;
+    }
+    h2 {
+      font-size: 1.12rem;
+      line-height: 1.2;
+    }
+    p,
+    label {
+      color: var(--mat-sys-on-surface-variant);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    label {
+      display: grid;
+      gap: 8px;
+    }
+    select {
+      min-height: 48px;
+      width: 100%;
+      border: 0;
+      border-radius: 8px;
+      padding: 0 14px;
+      background: color-mix(in srgb, var(--tib-violet) 16%, var(--mat-sys-surface-container-lowest));
+      color: var(--mat-sys-on-surface);
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: 2px solid transparent;
+    }
+    select:focus-visible {
+      outline-color: var(--mat-sys-primary);
+    }
+    .dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 2px;
+    }
+    button {
+      min-height: 40px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 999px;
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .secondary-action {
+      background: var(--mat-sys-surface-container-high);
+      color: var(--mat-sys-on-surface);
+    }
+    .primary-action {
+      background: var(--mat-sys-primary);
+      color: var(--mat-sys-on-primary);
+    }
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class ProjectServiceStatusDialogComponent {
+  protected readonly data = inject<{
+    serviceName: string;
+    status: number;
+    statuses: StatusOption[];
+  }>(MAT_DIALOG_DATA);
+  private readonly dialogRef = inject(MatDialogRef<ProjectServiceStatusDialogComponent>);
+  protected selectedStatus = this.data.status;
+
+  onStatusChange(value: string): void {
+    this.selectedStatus = Number(value);
+  }
+
+  close(): void {
+    this.dialogRef.close();
+  }
+
+  save(): void {
+    this.dialogRef.close(this.selectedStatus);
+  }
+}
+
 const projectStatusLabels: Record<number, string> = {
   1: 'Backlog',
   2: 'Discovery',
@@ -158,6 +290,16 @@ const projectStatusLabels: Record<number, string> = {
   7: 'Down',
   8: 'Arquivado',
 };
+
+interface StatusOption {
+  value: number;
+  label: string;
+}
+
+const projectStatusOptions: StatusOption[] = Object.entries(projectStatusLabels).map(([value, label]) => ({
+  value: Number(value),
+  label,
+}));
 
 const projectTypeLabels: Record<number, string> = {
   1: 'Backend',

@@ -65,9 +65,18 @@
       <div class="section-title">
         <h3>Cliente vinculado</h3>
         @if (project.customerProject) {
-          <button class="danger-action compact" type="button" (click)="confirmUnlinkCustomer(project.customerProject.id)">
-            Desvincular
-          </button>
+          <div class="section-actions">
+            <a
+              class="secondary-action compact"
+              [routerLink]="['/customer-projects', project.customerProject.id, 'edit']"
+              [queryParams]="{ project_id: project.id }"
+            >
+              Editar vinculo
+            </a>
+            <button class="danger-action compact" type="button" (click)="confirmUnlinkCustomer(project.customerProject.id)">
+              Desvincular
+            </button>
+          </div>
         } @else {
           <a class="secondary-action compact" [routerLink]="['/customer-projects/new']" [queryParams]="{ project_id: project.id }">
             Vincular cliente
@@ -122,16 +131,61 @@
         <div class="services-list">
           @for (service of projects.services(); track service.id) {
             <article class="service-card">
-              <div>
-                <h4>{{ service.name }}</h4>
-                <p>{{ projectTypeLabel(service.type) }} - {{ projectStatusLabel(service.status) }}</p>
+              <div class="service-card-header">
+                <div>
+                  <h4>{{ service.name }}</h4>
+                  <p>{{ projectTypeLabel(service.type) }} - {{ projectStatusLabel(service.status) }}</p>
+                </div>
+                <div class="service-actions">
+                  <button class="secondary-action compact" type="button" (click)="openServiceStatusDialog(service)">
+                    Atualizar status
+                  </button>
+                  <a class="secondary-action compact" [routerLink]="['/project-services', service.id, 'edit']">Editar</a>
+                  <button class="danger-action compact" type="button" (click)="confirmDeleteService(service.id)">
+                    Deletar
+                  </button>
+                </div>
               </div>
-              <div class="service-actions">
-                <a class="secondary-action compact" [routerLink]="['/project-services', service.id, 'edit']">Editar</a>
-                <button class="danger-action compact" type="button" (click)="confirmDeleteService(service.id)">
-                  Deletar
-                </button>
-              </div>
+              <dl class="service-info">
+                <div>
+                  <dt>Tipo</dt>
+                  <dd>{{ projectTypeLabel(service.type) }}</dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd>{{ projectStatusLabel(service.status) }}</dd>
+                </div>
+                <div>
+                  <dt>URL</dt>
+                  <dd>
+                    @if (service.url) {
+                      <a [href]="service.url" target="_blank" rel="noreferrer">Abrir</a>
+                    } @else {
+                      -
+                    }
+                  </dd>
+                </div>
+                <div>
+                  <dt>Repositorio</dt>
+                  <dd>
+                    @if (service.repoUrl) {
+                      <a [href]="service.repoUrl" target="_blank" rel="noreferrer">Abrir</a>
+                    } @else {
+                      -
+                    }
+                  </dd>
+                </div>
+                <div>
+                  <dt>Health check</dt>
+                  <dd>
+                    @if (service.healthCheckUrl) {
+                      <a [href]="service.healthCheckUrl" target="_blank" rel="noreferrer">Abrir</a>
+                    } @else {
+                      -
+                    }
+                  </dd>
+                </div>
+              </dl>
             </article>
           }
         </div>

@@ -1,0 +1,56 @@
+<main class="relation-form-page">
+  <section class="form-heading">
+    <div>
+      <a [routerLink]="projectId() ? ['/projects', projectId()] : '/projects'">Projetos</a>
+      <h2>{{ editing ? 'Editar vinculo' : 'Vincular cliente' }}</h2>
+      <p>Dados comerciais do cliente neste projeto.</p>
+    </div>
+  </section>
+
+  @if (loading()) {
+    <app-feedback-state mode="loading" />
+  } @else if (error()) {
+    <app-feedback-state mode="error" title="Nao conseguimos carregar o formulario" [message]="error() ?? ''" (action)="load()" />
+  } @else {
+    <form class="relation-form" [formGroup]="form" (ngSubmit)="save()">
+      @if (saveError()) {
+        <p class="inline-error">{{ saveError() }}</p>
+      }
+
+      <div class="form-grid">
+        <mat-form-field appearance="outline" class="full-row">
+          <mat-label>Cliente</mat-label>
+          <mat-select formControlName="customerId">
+            @for (customer of customers(); track customer.id) {
+              <mat-option [value]="customer.id">{{ customer.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Valor do projeto</mat-label>
+          <input matInput inputmode="decimal" formControlName="projectValue" />
+          <mat-hint>Use virgula para centavos.</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Mensalidade</mat-label>
+          <input matInput inputmode="decimal" formControlName="monthlyValue" />
+          <mat-hint>Use virgula para centavos.</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Dia do vencimento</mat-label>
+          <input matInput type="number" min="1" max="31" formControlName="dueDay" />
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <a class="secondary-action" [routerLink]="projectId() ? ['/projects', projectId()] : '/projects'">Cancelar</a>
+        <button class="primary-action" type="submit" [disabled]="saving()">
+          {{ saving() ? 'Salvando...' : editing ? 'Salvar vinculo' : 'Vincular cliente' }}
+        </button>
+      </div>
+    </form>
+  }
+</main>

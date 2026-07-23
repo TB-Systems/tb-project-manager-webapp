@@ -187,18 +187,15 @@ mat-divider {
 }
 
 .service-row {
-  min-height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 12px 14px;
+  display: grid;
+  gap: 14px;
+  padding: 16px;
   border: 0;
   border-radius: 8px;
   background: var(--service-bg, var(--mat-sys-surface-container-lowest));
 }
 
-.service-row div {
+.service-row-header {
   min-width: 0;
   display: grid;
   gap: 3px;
@@ -216,6 +213,20 @@ mat-divider {
 .service-row a {
   color: var(--tib-white);
   border-color: color-mix(in srgb, var(--tib-white) 46%, transparent);
+}
+
+.service-info-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.service-info-grid dt {
+  color: color-mix(in srgb, var(--tib-white) 72%, transparent);
+}
+
+.service-info-grid dd {
+  color: var(--tib-white);
 }
 
 .empty-state,
@@ -293,9 +304,12 @@ a {
     grid-template-columns: 1fr;
   }
 
-  .service-row,
   .section-header {
     align-items: stretch;
     flex-direction: column;
+  }
+
+  .service-info-grid {
+    grid-template-columns: 1fr;
   }
 }

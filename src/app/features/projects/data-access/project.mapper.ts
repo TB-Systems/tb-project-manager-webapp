@@ -1,16 +1,23 @@
 import {
   Project,
+  CustomerProject,
+  CustomerProjectFormValue,
   ProjectCustomer,
   ProjectCustomerProject,
   ProjectFormValue,
   ProjectService,
+  ProjectServiceFormValue,
 } from '../domain/project.model';
 import {
+  CustomerProjectDto,
+  CustomerProjectRequestDto,
   ProjectCustomerDto,
   ProjectCustomerProjectDto,
   ProjectDto,
   ProjectRequestDto,
   ProjectServiceDto,
+  ProjectServiceRequestDto,
+  ProjectServiceUpdateRequestDto,
 } from './project.dto';
 
 export function mapProjectDto(dto: ProjectDto): Project {
@@ -40,6 +47,21 @@ export function mapProjectServiceDto(dto: ProjectServiceDto): ProjectService {
   };
 }
 
+export function mapCustomerProjectRelationDto(dto: CustomerProjectDto): CustomerProject {
+  return {
+    id: dto.id,
+    projectId: dto.project_id,
+    customerId: dto.customer_id,
+    projectValue: dto.project_value,
+    monthlyValue: dto.monthly_value,
+    dueDay: dto.due_day,
+    projectPaymentStatus: dto.project_payment_status,
+    lastPayment: dto.last_payment,
+    createdAt: dto.created_at,
+    updatedAt: dto.updated_at,
+  };
+}
+
 export function mapProjectFormToRequest(value: ProjectFormValue): ProjectRequestDto {
   return {
     name: value.name,
@@ -47,6 +69,54 @@ export function mapProjectFormToRequest(value: ProjectFormValue): ProjectRequest
     slug: value.slug,
     repo_url: value.repoUrl,
   };
+}
+
+export function mapProjectServiceFormToRequest(
+  projectId: string,
+  value: ProjectServiceFormValue,
+): ProjectServiceRequestDto {
+  return {
+    project_id: projectId,
+    name: value.name,
+    type: value.type,
+    url: value.url,
+    repo_url: value.repoUrl,
+    health_check_url: value.healthCheckUrl,
+  };
+}
+
+export function mapProjectServiceFormToUpdateRequest(
+  projectId: string,
+  value: ProjectServiceFormValue,
+  status: number,
+): ProjectServiceUpdateRequestDto {
+  return {
+    ...mapProjectServiceFormToRequest(projectId, value),
+    status,
+  };
+}
+
+export function mapCustomerProjectFormToRequest(
+  projectId: string,
+  value: CustomerProjectFormValue,
+): CustomerProjectRequestDto {
+  return {
+    project_id: projectId,
+    customer_id: value.customerId,
+    project_value: moneyToCents(value.projectValue),
+    monthly_value: moneyToCents(value.monthlyValue),
+    due_day: value.dueDay,
+  };
+}
+
+function moneyToCents(value: string): number {
+  const normalized = value.trim().replace(/\./g, '').replace(',', '.');
+  const parsed = Number.parseFloat(normalized);
+  if (!Number.isFinite(parsed) || parsed < 0) {
+    return 0;
+  }
+
+  return Math.round(parsed * 100);
 }
 
 function mapCustomerProjectDto(dto: ProjectCustomerProjectDto): ProjectCustomerProject {
