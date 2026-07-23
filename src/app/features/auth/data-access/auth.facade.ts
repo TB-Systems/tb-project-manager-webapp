@@ -78,9 +78,15 @@ export class AuthFacade {
     });
   }
 
+  invalidateSession(): void {
+    this.clearSessionAndNavigateToLogin();
+  }
+
   private clearSessionAndNavigateToLogin(): void {
     this.state.update((state) => ({ ...state, user: null, error: null }));
-    void this.router.navigateByUrl('/login');
+    if (this.router.url !== '/login') {
+      void this.router.navigateByUrl('/login');
+    }
   }
 }
 

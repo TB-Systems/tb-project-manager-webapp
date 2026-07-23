@@ -1,7 +1,42 @@
-<main class="top-level-page">
-  <mat-card appearance="outlined">
-    <mat-card-header>
-      <mat-card-title>Projetos</mat-card-title>
-    </mat-card-header>
-  </mat-card>
+<main class="projects-page">
+  <section class="projects-heading">
+    <div>
+      <h2>Projetos</h2>
+      <p>{{ projects.projects().length }} projetos carregados</p>
+    </div>
+    <a class="primary-action" routerLink="/projects/new">Novo projeto</a>
+  </section>
+
+  @if (projects.listLoading()) {
+    <app-feedback-state mode="loading" />
+  } @else if (projects.listError()) {
+    <app-feedback-state
+      mode="error"
+      title="Nao conseguimos buscar os projetos"
+      [message]="projects.listError() ?? ''"
+      (action)="retry()"
+    />
+  } @else if (projects.projects().length === 0) {
+    <app-feedback-state
+      mode="empty"
+      title="Nenhum projeto encontrado"
+      message="Quando houver projetos cadastrados, eles aparecerao aqui."
+    />
+  } @else {
+    <section class="projects-list" aria-label="Projetos">
+      @for (project of projects.projects(); track project.id) {
+        <a class="project-card" [routerLink]="['/projects', project.id]">
+          <div>
+            <h3>{{ project.name }}</h3>
+            <p>{{ project.slug }}</p>
+          </div>
+          <span>{{ projectStatusLabel(project.status) }}</span>
+        </a>
+      }
+    </section>
+
+    @if (projects.listLoadingMore()) {
+      <app-feedback-state mode="loading" />
+    }
+  }
 </main>

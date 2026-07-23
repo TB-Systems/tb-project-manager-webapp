@@ -138,4 +138,24 @@ describe('AuthFacade', () => {
     expect(facade.user()).toBeNull();
     expect(router.navigateByUrl).toHaveBeenLastCalledWith('/login');
   });
+
+  it('deve invalidar sessao em memoria e navegar para login', () => {
+    api.login.mockReturnValue(
+      of({
+        id: 1,
+        name: 'Tiago',
+        username: 'tiago',
+        email: 'tiago@example.com',
+        cpf: '12345678900',
+        expires_at: '2026-07-20T16:00:00Z',
+      }),
+    );
+
+    facade.login('tiago', 'senha-secreta');
+    facade.invalidateSession();
+
+    expect(facade.user()).toBeNull();
+    expect(facade.isAuthenticated()).toBe(false);
+    expect(router.navigateByUrl).toHaveBeenLastCalledWith('/login');
+  });
 });

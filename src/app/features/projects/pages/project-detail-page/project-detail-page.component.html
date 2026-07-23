@@ -1,0 +1,141 @@
+<main class="project-detail-page">
+  <section class="detail-heading">
+    <div>
+      <a routerLink="/projects">Projetos</a>
+      <h2>{{ projects.project()?.name ?? 'Projeto' }}</h2>
+      <p>{{ projects.project()?.slug ?? 'Detalhe do projeto' }}</p>
+    </div>
+
+    @if (projects.project()) {
+      <div class="heading-actions">
+        <a class="secondary-action" [routerLink]="['/projects', projectId, 'edit']">Editar</a>
+        <button class="danger-action" type="button" [disabled]="projects.deleting()" (click)="confirmDeleteProject()">
+          {{ projects.deleting() ? 'Deletando...' : 'Deletar' }}
+        </button>
+      </div>
+    }
+  </section>
+
+  @if (projects.detailLoading()) {
+    <app-feedback-state mode="loading" />
+  } @else if (projects.detailError()) {
+    <app-feedback-state
+      mode="error"
+      title="Nao conseguimos buscar o projeto"
+      [message]="projects.detailError() ?? ''"
+      (action)="retry()"
+    />
+  } @else if (projects.project(); as project) {
+    @if (projects.actionError()) {
+      <p class="inline-error">{{ projects.actionError() }}</p>
+    }
+
+    <section class="project-panel">
+      <div class="panel-header">
+        <div>
+          <h3>{{ project.name }}</h3>
+          <p>{{ project.description || 'Sem descricao.' }}</p>
+        </div>
+        <span>{{ projectStatusLabel(project.status) }}</span>
+      </div>
+
+      <dl>
+        <div>
+          <dt>Slug</dt>
+          <dd>{{ project.slug }}</dd>
+        </div>
+        <div>
+          <dt>Repositorio</dt>
+          <dd>
+            @if (project.repoUrl) {
+              <a [href]="project.repoUrl" target="_blank" rel="noreferrer">Abrir</a>
+            } @else {
+              -
+            }
+          </dd>
+        </div>
+        <div>
+          <dt>Atualizado em</dt>
+          <dd>{{ project.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="relation-section">
+      <div class="section-title">
+        <h3>Cliente vinculado</h3>
+        @if (project.customerProject) {
+          <button class="danger-action compact" type="button" (click)="confirmUnlinkCustomer(project.customerProject.id)">
+            Desvincular
+          </button>
+        } @else {
+          <a class="secondary-action compact" [routerLink]="['/customer-projects/new']" [queryParams]="{ project_id: project.id }">
+            Vincular cliente
+          </a>
+        }
+      </div>
+
+      @if (project.customerProject; as relation) {
+        <div class="relation-card">
+          <div>
+            <h4>{{ relation.customer.name }}</h4>
+            <p>{{ relation.customer.email }}</p>
+          </div>
+          <dl>
+            <div>
+              <dt>Valor do projeto</dt>
+              <dd>{{ money(relation.projectValue) }}</dd>
+            </div>
+            <div>
+              <dt>Mensalidade</dt>
+              <dd>{{ money(relation.monthlyValue) }}</dd>
+            </div>
+            <div>
+              <dt>Vencimento</dt>
+              <dd>Dia {{ relation.dueDay }}</dd>
+            </div>
+            <div>
+              <dt>Pagamento</dt>
+              <dd>{{ paymentStatusLabel(relation.projectPaymentStatus) }}</dd>
+            </div>
+          </dl>
+          <a [routerLink]="['/customers', relation.customer.id]">Detalhe do cliente</a>
+        </div>
+      } @else {
+        <p class="muted">Projeto sem cliente vinculado.</p>
+      }
+    </section>
+
+    <section class="relation-section">
+      <div class="section-title">
+        <h3>Servicos</h3>
+        <a class="secondary-action compact" [routerLink]="['/project-services/new']" [queryParams]="{ project_id: project.id }">
+          Criar servico
+        </a>
+      </div>
+
+      @if (projects.servicesLoading()) {
+        <app-feedback-state mode="loading" />
+      } @else if (projects.services().length === 0) {
+        <p class="muted">Nenhum servico vinculado.</p>
+      } @else {
+        <div class="services-list">
+          @for (service of projects.services(); track service.id) {
+            <article class="service-card">
+              <div>
+                <h4>{{ service.name }}</h4>
+                <p>{{ projectTypeLabel(service.type) }} - {{ projectStatusLabel(service.status) }}</p>
+              </div>
+              <div class="service-actions">
+                <a class="secondary-action compact" [routerLink]="['/project-services', service.id, 'edit']">Editar</a>
+                <button class="danger-action compact" type="button" (click)="confirmDeleteService(service.id)">
+                  Deletar
+                </button>
+              </div>
+            </article>
+          }
+        </div>
+      }
+    </section>
+  }
+</main>

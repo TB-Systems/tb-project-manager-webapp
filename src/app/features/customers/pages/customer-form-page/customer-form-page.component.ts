@@ -43,7 +43,7 @@ export class CustomerFormPageComponent implements OnInit {
     name: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(100)] }),
     slug: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)],
+      validators: [Validators.required, Validators.maxLength(50), Validators.pattern(/^[a-z0-9]+(?:[.-][a-z0-9]+)*$/)],
     }),
     documentType: new FormControl(1, { nonNullable: true, validators: [Validators.required] }),
     document: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(100)] }),
@@ -69,6 +69,7 @@ export class CustomerFormPageComponent implements OnInit {
     this.customers.clearDetail();
     this.form.controls.document.addValidators(documentValidator(this.form.controls.documentType));
 
+    this.form.controls.slug.valueChanges.subscribe(() => this.applySlugMask());
     this.form.controls.documentType.valueChanges.subscribe(() => {
       this.applyDocumentMask();
       this.form.controls.document.updateValueAndValidity();
@@ -113,7 +114,7 @@ export class CustomerFormPageComponent implements OnInit {
   private patchForm(customer: Customer): void {
     this.form.patchValue({
       name: customer.name,
-      slug: customer.slug,
+      slug: normalizeSlug(customer.slug),
       documentType: customer.documentType,
       document: maskDocument(customer.document, customer.documentType),
       email: customer.email,
@@ -121,6 +122,14 @@ export class CustomerFormPageComponent implements OnInit {
       status: customer.status,
       url: customer.url,
     });
+  }
+
+  private applySlugMask(): void {
+    const control = this.form.controls.slug;
+    const normalized = normalizeSlug(control.value);
+    if (normalized !== control.value) {
+      control.setValue(normalized, { emitEvent: false });
+    }
   }
 
   private applyDocumentMask(): void {
@@ -163,6 +172,17 @@ function phoneValidator(control: AbstractControl<string>): ValidationErrors | nu
 
 function onlyDigits(value: string): string {
   return value.replace(/\D/g, '');
+}
+
+function normalizeSlug(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9.-]+/g, '-')
+    .replace(/[.-]{2,}/g, '-')
+    .replace(/^[.-]+|[.-]+$/g, '')
+    .slice(0, 50);
 }
 
 function maskDocument(value: string, documentType: number): string {

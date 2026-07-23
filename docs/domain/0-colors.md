@@ -8,9 +8,9 @@ Esquema de cores baseado na identidade visual da TiB e organizado de acordo com 
 
 | Cor | Hex | Referência |
 |---|---:|---|
-| TiB Deep Indigo | `#1A1460` | Fundo principal da identidade |
-| TiB Navy | `#0F2D5F` | Texto e elementos centrais da logomarca |
-| TiB Violet | `#7961E6` | Início do gradiente |
+| TiB Deep Indigo | `#3162cc` | Fundo principal da identidade |
+| TiB Navy | `#2257ca` | Texto e elementos centrais da logomarca |
+| TiB Violet | `#4c6980` | Início do gradiente |
 | TiB Teal | `#529897` | Transição do gradiente |
 | TiB Green | `#55B675` | Final do gradiente |
 | White | `#FFFFFF` | Fundos e textos claros |
@@ -23,16 +23,16 @@ Esquema de cores baseado na identidade visual da TiB e organizado de acordo com 
 
 | Token | Hex |
 |---|---:|
-| Primary | `#1A1460` |
+| Primary | `#3162cc` |
 | On Primary | `#FFFFFF` |
 | Primary Container | `#E4E0FF` |
-| On Primary Container | `#160F52` |
+| On Primary Container | `#2257ca` |
 
 ### Secondary
 
 | Token | Hex |
 |---|---:|
-| Secondary | `#315F82` |
+| Secondary | `#4c6980` |
 | On Secondary | `#FFFFFF` |
 | Secondary Container | `#CEE5FF` |
 | On Secondary Container | `#0C314A` |

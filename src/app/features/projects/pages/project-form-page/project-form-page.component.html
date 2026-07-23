@@ -1,0 +1,61 @@
+<main class="project-form-page">
+  <section class="form-heading">
+    <div>
+      <a routerLink="/projects">Projetos</a>
+      <h2>{{ editing ? 'Editar projeto' : 'Novo projeto' }}</h2>
+      <p>{{ editing ? 'Atualize as informacoes do projeto.' : 'Cadastre um novo projeto.' }}</p>
+    </div>
+  </section>
+
+  @if (editing && projects.detailLoading()) {
+    <app-feedback-state mode="loading" />
+  } @else if (editing && projects.detailError()) {
+    <app-feedback-state
+      mode="error"
+      title="Nao conseguimos buscar o projeto"
+      [message]="projects.detailError() ?? ''"
+      (action)="retry()"
+    />
+  } @else {
+    <form class="project-form" [formGroup]="form" (ngSubmit)="save()">
+      @if (projects.actionError()) {
+        <p class="inline-error">{{ projects.actionError() }}</p>
+      }
+
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Nome</mat-label>
+          <input matInput formControlName="name" maxlength="100" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Slug</mat-label>
+          <input matInput formControlName="slug" maxlength="50" />
+          <mat-hint>Use letras minusculas, numeros, hifens e pontos.</mat-hint>
+          @if (form.controls.slug.hasError('required')) {
+            <mat-error>Informe o slug.</mat-error>
+          } @else if (form.controls.slug.hasError('pattern')) {
+            <mat-error>Use apenas letras minusculas, numeros, hifens e pontos.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Repositorio</mat-label>
+          <input matInput type="url" formControlName="repoUrl" maxlength="500" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-row">
+          <mat-label>Descricao</mat-label>
+          <textarea matInput formControlName="description" maxlength="500" rows="5"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="form-actions">
+        <a class="secondary-action" routerLink="/projects">Cancelar</a>
+        <button class="primary-action" type="submit" [disabled]="projects.saving()">
+          {{ projects.saving() ? 'Salvando...' : editing ? 'Salvar projeto' : 'Criar projeto' }}
+        </button>
+      </div>
+    </form>
+  }
+</main>

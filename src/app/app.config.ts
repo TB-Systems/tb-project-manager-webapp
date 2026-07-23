@@ -4,6 +4,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { credentialsInterceptor } from './core/http/credentials.interceptor';
+import { sessionInterceptor } from './core/http/session.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,7 +15,7 @@ export const appConfig: ApplicationConfig = {
         cookieName: 'project_manager_csrf',
         headerName: 'X-CSRF-Token'
       }),
-      withInterceptors([credentialsInterceptor])
+      withInterceptors([credentialsInterceptor, sessionInterceptor])
     )
   ]
 };

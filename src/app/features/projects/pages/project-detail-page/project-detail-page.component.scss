@@ -1,0 +1,158 @@
+.project-detail-page {
+  display: grid;
+  gap: 18px;
+}
+
+.detail-heading,
+.panel-header,
+.section-title,
+.service-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.detail-heading {
+  align-items: end;
+  padding: 6px 4px 0;
+}
+
+h2,
+h3,
+h4,
+p,
+dl {
+  margin: 0;
+}
+
+h2 {
+  margin-top: 6px;
+  font-size: 1.8rem;
+  line-height: 1.2;
+  color: var(--tib-deep-indigo);
+}
+
+h3,
+h4 {
+  font-size: 1rem;
+}
+
+.detail-heading p,
+.panel-header p,
+.service-card p,
+.relation-card p,
+.muted {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+a {
+  color: var(--mat-sys-primary);
+}
+
+.heading-actions,
+.service-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.secondary-action,
+.danger-action {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.compact {
+  min-height: 34px;
+  padding: 0 14px;
+}
+
+.secondary-action {
+  background: var(--mat-sys-surface-container-high);
+  color: var(--mat-sys-on-surface);
+}
+
+.danger-action {
+  background: var(--mat-sys-error);
+  color: var(--mat-sys-on-error);
+}
+
+.danger-action:disabled {
+  opacity: 0.68;
+}
+
+.project-panel,
+.relation-card,
+.service-card {
+  padding: 20px 22px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tib-violet) 22%, var(--mat-sys-surface-container-lowest));
+}
+
+.panel-header span {
+  width: fit-content;
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--tib-violet);
+  color: var(--tib-white);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+dt {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+dd {
+  margin: 4px 0 0;
+  overflow-wrap: anywhere;
+}
+
+.relation-section,
+.services-list,
+.relation-card {
+  display: grid;
+  gap: 14px;
+}
+
+.inline-error {
+  color: var(--mat-sys-error);
+  font-weight: 600;
+}
+
+@media (max-width: 840px) {
+  .detail-heading,
+  .panel-header,
+  .section-title,
+  .service-card,
+  .heading-actions,
+  .service-actions {
+    display: grid;
+    align-items: stretch;
+  }
+
+  dl {
+    grid-template-columns: 1fr;
+  }
+}

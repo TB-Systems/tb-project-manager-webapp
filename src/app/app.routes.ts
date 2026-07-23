@@ -1,12 +1,22 @@
 import { Routes } from '@angular/router';
 
 import { authGuard } from './core/guards/auth.guard';
+import { entryGuard } from './core/guards/entry.guard';
 import { guestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
   {
     path: 'login',
     canActivate: [guestGuard],
+    loadComponent: () =>
+      import('./features/auth/pages/login-page/login-page.component').then(
+        (m) => m.LoginPageComponent,
+      ),
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    canActivate: [entryGuard],
     loadComponent: () =>
       import('./features/auth/pages/login-page/login-page.component').then(
         (m) => m.LoginPageComponent,
@@ -60,12 +70,28 @@ export const routes: Routes = [
             (m) => m.ProjectsPageComponent,
           ),
       },
+      {
+        path: 'projects/new',
+        loadComponent: () =>
+          import('./features/projects/pages/project-form-page/project-form-page.component').then(
+            (m) => m.ProjectFormPageComponent,
+          ),
+      },
+      {
+        path: 'projects/:id/edit',
+        loadComponent: () =>
+          import('./features/projects/pages/project-form-page/project-form-page.component').then(
+            (m) => m.ProjectFormPageComponent,
+          ),
+      },
+      {
+        path: 'projects/:id',
+        loadComponent: () =>
+          import('./features/projects/pages/project-detail-page/project-detail-page.component').then(
+            (m) => m.ProjectDetailPageComponent,
+          ),
+      },
     ],
-  },
-  {
-    path: '',
-    pathMatch: 'full',
-    redirectTo: 'login',
   },
   {
     path: '**',
